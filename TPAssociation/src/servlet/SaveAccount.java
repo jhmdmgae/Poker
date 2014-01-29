@@ -49,7 +49,7 @@ public class SaveAccount extends HttpServlet {
 		u.setPays(request.getParameter("pays"));
 		
 		us.create(u);
-		
+		us.close();
 		request.setAttribute("message", "Votre compte a bien été créer");
 		getServletContext().getRequestDispatcher("/page/login.jsp").forward(request, response);
 		
