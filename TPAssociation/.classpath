@@ -13,14 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/derbyclient.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/hibernate3.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/javassist-3.12.0.GA.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="U:/Documents/GUERIN/eclipse-kepler-tt210/eclipse/libs/hibernate/commons-collections-3.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

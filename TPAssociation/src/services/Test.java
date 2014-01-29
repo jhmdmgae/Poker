@@ -17,7 +17,7 @@ public class Test {
 		
 		as.create(u);*/
 		
-		System.out.println(as.find("toto").getPrenom());
+		System.out.println(as.find("marie"));
 		
 		
 	}
