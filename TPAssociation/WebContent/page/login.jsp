@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Login</h1>
-<%if(request.getAttribute("erreur")!=null) out.print(request.getAttribute("erreur"));%>
+<%if(request.getAttribute("message")!=null) out.print(request.getAttribute("message"));%>
 <form method="post" action="<%=getServletContext().getContextPath()%>/Action?task=Login">
 	<table>
 		<tr>

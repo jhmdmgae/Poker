@@ -1,12 +1,34 @@
 package beans;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="UTILISATEUR", schema="ASSOC_EMN")
 public class Utilisateur {
-	
+	@Id
+	@Column(name="IDENTIFIANT")
 	private String identifiant;
+	@Column(name="PASSWORD")
 	private String password;
+	@Column(name="NOM")
 	private String nom;
+	@Column(name="PRENOM")
 	private String prenom;
+	@Column(name="ADRESSE")
 	private String adresse;
+	@Column(name="CODEPOSTAL")
+	private String codepostal;
+	
+	public String getCodepostal() {
+		return codepostal;
+	}
+
+	public void setCodepostal(String codepostal) {
+		this.codepostal = codepostal;
+	}
 	private String ville;
 	private String pays;
 	

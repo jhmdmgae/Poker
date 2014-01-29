@@ -1,0 +1,33 @@
+Create schema Assoc_EMN;
+Create table ASSOC_EMN.UTILISATEUR(
+	identifiant varchar(20) primary key,
+	nom varchar(20) not null,
+	prenom varchar(20) not null,
+	password varchar(20) not null,
+	adresse varchar(20),
+	ville varchar(20),
+	codepostal char(5),
+	pays varchar(20) not null);
+	
+	
+	Create table ASSOC_EMN.ARTICLE(
+	code varchar(20) primary key,
+	nom varchar(20) not null,
+	prix double not null,
+	stock int not null);
+
+
+ 	create table ASSOC_EMN.COMMANDE(
+	identifiant varchar(20) not null,
+	code varchar(20)not null);
+	
+	drop table ASSOC_EMN.COMMANDE;
+
+Alter table ASSOC_EMN.COMMANDE add constraint pk_id_code primary key(identifiant, code);
+Alter table ASSOC_EMN.COMMANDE add constraint fk_id foreign key(identifiant) references ASSOC_EMN.UTILISATEUR(identifiant);
+Alter table ASSOC_EMN.COMMANDE add constraint fk_code foreign key(code) references ASSOC_EMN.ARTICLE(code);
+
+INSERT INTO ASSOC_EMN.ARTICLE (code,nom,prix,stock) VALUES ('T1', 'T-Shirt',10.50 ,12);
+INSERT INTO ASSOC_EMN.ARTICLE (code,nom,prix,stock) VALUES ('C2', 'Iphone 5',799.99 ,9);
+INSERT INTO ASSOC_EMN.ARTICLE (code,nom,prix,stock) VALUES ('P4', 'PS4',399.99 ,4);
+INSERT INTO ASSOC_EMN.ARTICLE (code,nom,prix,stock) VALUES ('XO', 'X-BOX One',599.99 ,6);
