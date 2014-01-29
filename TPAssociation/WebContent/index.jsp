@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	TEST OK pour GIT
+	TEST OK pour GITHUB
 </body>
 </html>
