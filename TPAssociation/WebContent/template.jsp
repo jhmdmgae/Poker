@@ -16,6 +16,11 @@
 			<td><a href="<%=getServletContext().getContextPath()%>/Action?page=articles">Articles</a></td>
 			<td><a href="<%=getServletContext().getContextPath()%>/Action?page=commandes">Commandes</a></td>
 			<td>Utilisateur : </td>
+			<td>
+				<form method="post" action="<%=getServletContext().getContextPath()%>/Action?task=Logout">
+					<input type="submit" id="logout" value="Déconnexion"/>
+				</form>
+			</td>
 		</tr>
 	</table>
 	
