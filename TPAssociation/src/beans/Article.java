@@ -1,10 +1,23 @@
 package beans;
 
-public class Article {
+import javax.validation.constraints.*;
 
+public class Article {
+	
+	@NotNull
+	@Size(min = 1, max = 10)
 	private String code; 
+	
+	@NotNull
+	@Size(min = 1, max = 10)
 	private String nom;
+	
+	@NotNull
+	@Min(1)
 	private double prix;
+	
+	@NotNull
+	@Min(0)
 	private int quantite;
 	
 	
