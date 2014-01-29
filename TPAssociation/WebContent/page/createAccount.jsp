@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Enregistrez-vous : </h1>
-<form method="get" action="#">
+<form method="post" action="<%=getServletContext().getContextPath()%>/Action?task=SaveAccount"">
 	<table>
 		<tr>
 			<td>Identifiant : </td>
