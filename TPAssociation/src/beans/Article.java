@@ -2,7 +2,7 @@ package beans;
 
 import javax.validation.constraints.*;
 
-public class Article {
+public class Article{
 	
 	@NotNull
 	@Size(min = 1, max = 10)
