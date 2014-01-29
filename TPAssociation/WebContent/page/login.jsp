@@ -8,7 +8,8 @@
 </head>
 <body>
 <h1>Login</h1>
-<form method="post" action="#">
+<%if(request.getAttribute("erreur")!=null) out.print(request.getAttribute("erreur"));%>
+<form method="post" action="<%=getServletContext().getContextPath()%>/Action?task=Login">
 	<table>
 		<tr>
 			<td>Login</td>
@@ -23,6 +24,6 @@
 		</tr>
 	</table>
 </form>
-<h5>Pas encore enregistrez ? <a href="createAccount.jsp"> Créer un compte</a> </h5>
+<h5>Pas encore enregistrez ? <a href="<%=getServletContext().getContextPath()%>/page/createAccount.jsp"> Créer un compte</a> </h5>
 </body>
 </html>

@@ -8,18 +8,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class Action
+ * Servlet implementation class Login
  */
-@WebServlet("/Action")
-public class Action extends HttpServlet {
+@WebServlet("/Login")
+public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Action() {
+    public Login() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,18 +29,27 @@ public class Action extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/template.jsp");
-		rd.forward(request, response);
+		// TODO Auto-generated method stub
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String task = request.getParameter("task");
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/"+task);
-		rd.forward(request, response);
+		String login = request.getParameter("login");
+		String pwd = request.getParameter("password");
+		
+		if(login != null && pwd.equals("OK")){
+			HttpSession session = request.getSession();
+			session.setAttribute("login", login);
+			response.sendRedirect(getServletContext().getContextPath()+ "/Action");
+		}else{
+			request.setAttribute("erreur", "Utilisateur inconnu");
+			getServletContext().getRequestDispatcher("/page/login.jsp").forward(request, response);;
+		}
+			
+			
+		
 	}
 
 }
