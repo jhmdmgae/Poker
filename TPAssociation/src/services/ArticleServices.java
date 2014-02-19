@@ -13,8 +13,8 @@ public class ArticleServices {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
-	public ArticleServices(EntityManagerFactory emf, EntityManager em) {
-		emf = Persistence.createEntityManagerFactory("Assoc_EMN");
+	public ArticleServices() {
+		emf = Persistence.createEntityManagerFactory("TPAssociation");
 		em = emf.createEntityManager();
 	}
 
@@ -28,11 +28,21 @@ public class ArticleServices {
 		em.getTransaction().commit();
 	}
 
-	public List<Article> listAll() {
-		Query req = em.createQuery("Select a from ARTICLES a");
-		List<Article> listArticle = req.getResultList();
-		return listArticle;
+	public void update(Article a){
+		em.merge(a);
 	}
+	
+	
+	public List<Article> listAll(){
+		Query query = em.createQuery("select a from Article a");
+		List<Article> list =  query.getResultList();
+		
+		return list;
+		
+	}
+	
+	
+	
 
 	public void close() {
 		em.close();
