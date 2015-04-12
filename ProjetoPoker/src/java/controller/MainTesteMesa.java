@@ -24,14 +24,26 @@ public class MainTesteMesa {
         
         Mesa mesa = new Mesa();
         
-        mesa.addJogador(userC.findUsuario(1), 0);
-        mesa.addJogador(userC.findUsuario(2), 2);
-        mesa.addJogador(userC.findUsuario(3), 3);
-        mesa.addJogador(userC.findUsuario(4), 6);
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        Player player4 = new Player();
         
-        mesa.jogada();
+        player1.setJogador(userC.findUsuario(1));
+        player2.setJogador(userC.findUsuario(2));
+        player3.setJogador(userC.findUsuario(3));
+        player4.setJogador(userC.findUsuario(4));
         
-        mesa.addJogador(userC.findUsuario(5), 7);
+        mesa.addJogador(player1, 0);
+        mesa.addJogador(player2, 2);
+        mesa.addJogador(player3, 3);
+        mesa.addJogador(player4, 6);
+        
+        
+//        mesa.addJogador(userC.findUsuario(1), 0);
+//        mesa.addJogador(userC.findUsuario(2), 2);
+//        mesa.addJogador(userC.findUsuario(3), 3);
+//        mesa.addJogador(userC.findUsuario(4), 6);
         
         mesa.jogada();
         

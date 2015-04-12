@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import servlets.entidade.Usuario;
 
@@ -11,7 +12,7 @@ import servlets.entidade.Usuario;
 public class Mesa {
 
     private ArrayList<Usuario> mesa;
-    private Usuario[] mesa2 = {null, null, null, null, null, null, null, null};
+    private Player[] mesa2 = {null, null, null, null, null, null, null, null};
     private Usuario jogador;
     private int dealer;
     private int posicao;
@@ -22,6 +23,9 @@ public class Mesa {
     private boolean mudancaFase;
     private int apostaMinima;
     private int apostaCorrente;
+
+    private List<Card> communityCards;
+    Deck d;
 
     public Mesa() {
 
@@ -39,27 +43,45 @@ public class Mesa {
     public void jogada() {
 
         alterarFase();
+        d = new Deck();
+        communityCards = new ArrayList<>();
 
         while (true) {
 
+            //Entrega as cartas dos players
+            if (posicao == 0) {
+                for (int i = 0; i < 8; i++) {
+                    if (mesa2[i] != null) {
+                        mesa2[i].iniciarJogadaMesa(d, communityCards);
+                    }
+                }
+            }
+
             if (validarPosicao(posicao)) {
 
+//                System.out.println(" fase = "+ fase);
+//                System.out.println(" posicao = "+ posicao);
+//                System.out.println(" quantPosicaoValida = "+ quantPosicaoValida);
                 if (quantPosicaoValida == calcularQuantJogadores()) {
                     mudancaFase = true;
                     alterarFase();
                     quantPosicaoValida = 0;
-                }                
-                
+                }
+
                 if (primeiraRodada && quantPosicaoValida == 0) {
                     System.out.println(" --- Distribuir Cartas --- ");
                 } else if (primeiraRodada && quantPosicaoValida == 1) {
                     System.out.println(" --- Pagar Small Blind  --- ");
-                    retirarSaldo(posicao, apostaMinima/2);
+                    retirarSaldo(posicao, apostaMinima / 2);
                 } else if (primeiraRodada && quantPosicaoValida == 2) {
                     System.out.println(" --- Pagar Big Blind --- ");
                     retirarSaldo(posicao, apostaMinima);
                 } else {
-                    System.out.print("Vez: " + mesa2[posicao % 8].getNome());
+                    System.out.print("Vez: " + mesa2[posicao % 8].getJogador().getNome());
+                    if(fase == 2){
+                        mesa2[posicao % 8].getHand();
+                        System.out.println(mesa2[posicao % 8]);
+                    }
                     acaoJogador(posicao);
                 }
 
@@ -67,7 +89,7 @@ public class Mesa {
 
                 quantPosicaoValida++;
                 System.out.println("");
-                
+
                 listarJogadaresMesa();
 
             }
@@ -122,6 +144,20 @@ public class Mesa {
                     System.out.println("          Fase: Flop");
                     System.out.println("------------------------------");
                     fase++;
+                    //adicionar cartas na mesa
+                    communityCards.add(d.drawFromDeck());
+                    communityCards.add(d.drawFromDeck());
+                    communityCards.add(d.drawFromDeck());
+                    System.out.println("Cartas na mesa");
+                    for (int i = 0; i < communityCards.size(); i++) {
+                        System.out.println(communityCards.get(i));
+                    }
+                    //adicionar cartas da mesa no player
+                    for (int i = 0; i < 8; i++) {
+                        if (mesa2[i] != null) {
+                            mesa2[i].setCommunityCards(communityCards);
+                        }
+                    }
                     break;
                 case 2:
                     System.out.println("------------------------------");
@@ -155,7 +191,7 @@ public class Mesa {
         return posicao++;
     }
 
-    public void addJogador(Usuario usuario, int posicao) {
+    public void addJogador(Player usuario, int posicao) {
 
         mesa2[posicao] = usuario;
 
@@ -177,13 +213,11 @@ public class Mesa {
     public void posicaoSmallBlind(int i) {
 
 //        System.out.print(" - Small Blind: " + i % 8);
-
     }
 
     public void posicaoBigBlind(int i) {
 
 //        System.out.print(" - Big Blind: " + i % 8);
-
     }
 
     private int acaoJogador(int posicao) {
@@ -218,18 +252,25 @@ public class Mesa {
     public void listarJogadaresMesa() {
         System.out.print("[");
         if (mesa2[0] != null) {
-            System.out.print(mesa2[0].getNome()+" ("+mesa2[0].getDinheiro()+")");
+            System.out.print(mesa2[0].getJogador().getNome() + " (" + mesa2[0].getJogador().getDinheiro() + ")");
         } else {
-            System.out.print("-");
+            System.out.print(" ");
         }
         for (int i = 1; i < mesa2.length; i++) {
             if (mesa2[i] != null) {
-                System.out.print(","+mesa2[i].getNome()+" ("+mesa2[i].getDinheiro()+")");
+                System.out.print("," + mesa2[i].getJogador().getNome() + " (" + mesa2[i].getJogador().getDinheiro() + ")");
             } else {
                 System.out.print(", ");
             }
         }
         System.out.println("]");
+
+        if (this.fase == 2) {
+            mesa2[0].toString();
+            mesa2[2].toString();
+            mesa2[3].toString();
+            mesa2[6].toString();
+        }
     }
 
     private void inativarJogador(int posicao) {
@@ -248,7 +289,7 @@ public class Mesa {
     }
 
     private void retirarSaldo(int posicao, int valor) {
-        mesa2[posicao % 8].setDinheiro(mesa2[posicao % 8].getDinheiro() - valor);
+        mesa2[posicao % 8].getJogador().setDinheiro(mesa2[posicao % 8].getJogador().getDinheiro() - valor);
 //        System.out.print(" - Novo saldo de " + mesa2[posicao % 8].getNome());
 //        System.out.print(" = " + mesa2[posicao % 8].getDinheiro());
     }
