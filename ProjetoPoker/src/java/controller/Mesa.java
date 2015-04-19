@@ -22,7 +22,7 @@ public class Mesa {
     private int acao;
     private boolean mudancaFase;
     private int apostaMinima;
-    private int apostaCorrente;
+    private double apostaCorrente;
 
     private List<Card> communityCards;
     Deck d;
@@ -32,7 +32,7 @@ public class Mesa {
         mesa = new ArrayList();
         dealer = 0;
         posicao = 0;
-        quantPosicaoValida = 0;
+        quantPosicaoValida = -3;
         fase = 0;
         mudancaFase = true;
         primeiraRodada = true;
@@ -59,26 +59,29 @@ public class Mesa {
 
             if (validarPosicao(posicao)) {
 
-//                System.out.println(" fase = "+ fase);
-//                System.out.println(" posicao = "+ posicao);
-//                System.out.println(" quantPosicaoValida = "+ quantPosicaoValida);
+//                System.out.println(" fase = " + fase);
+//                System.out.println(" posicao = " + posicao);
+//                System.out.println(" quantPosicaoValida = " + quantPosicaoValida);
+//                System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+//                System.out.println("Aposta Corrent " + apostaCorrente);
+
                 if (quantPosicaoValida == calcularQuantJogadores()) {
                     mudancaFase = true;
                     alterarFase();
                     quantPosicaoValida = 0;
                 }
 
-                if (primeiraRodada && quantPosicaoValida == 0) {
+                if (primeiraRodada && quantPosicaoValida == -3) {
                     System.out.println(" --- Distribuir Cartas --- ");
-                } else if (primeiraRodada && quantPosicaoValida == 1) {
+                } else if (primeiraRodada && quantPosicaoValida == -2) {
                     System.out.println(" --- Pagar Small Blind  --- ");
                     retirarSaldo(posicao, apostaMinima / 2);
-                } else if (primeiraRodada && quantPosicaoValida == 2) {
+                } else if (primeiraRodada && quantPosicaoValida == -1) {
                     System.out.println(" --- Pagar Big Blind --- ");
                     retirarSaldo(posicao, apostaMinima);
                 } else {
                     System.out.print("Vez: " + mesa2[posicao % 8].getJogador().getNome());
-                    if(fase == 2){
+                    if (fase == 2) {
                         mesa2[posicao % 8].getHand();
                         System.out.println(mesa2[posicao % 8]);
                     }
@@ -158,6 +161,7 @@ public class Mesa {
                             mesa2[i].setCommunityCards(communityCards);
                         }
                     }
+                    zerarBetting();
                     break;
                 case 2:
                     System.out.println("------------------------------");
@@ -178,13 +182,11 @@ public class Mesa {
     }
 
     public boolean validarPosicao(int posicao) {
-
         if (mesa2[posicao % 8] != null) {
             return true;
         } else {
             return false;
         }
-
     }
 
     public int proximaPosicao(int i) {
@@ -252,13 +254,13 @@ public class Mesa {
     public void listarJogadaresMesa() {
         System.out.print("[");
         if (mesa2[0] != null) {
-            System.out.print(mesa2[0].getJogador().getNome() + " (" + mesa2[0].getJogador().getDinheiro() + ")");
+            System.out.print(mesa2[0].getJogador().getNome() + " (" + mesa2[0].getMoney() + ")");
         } else {
             System.out.print(" ");
         }
         for (int i = 1; i < mesa2.length; i++) {
             if (mesa2[i] != null) {
-                System.out.print("," + mesa2[i].getJogador().getNome() + " (" + mesa2[i].getJogador().getDinheiro() + ")");
+                System.out.print("," + mesa2[i].getJogador().getNome() + " (" + mesa2[i].getMoney() + ")");
             } else {
                 System.out.print(", ");
             }
@@ -279,18 +281,56 @@ public class Mesa {
         listarJogadaresMesa();
     }
 
-    private void pagar(int posicao, int valor) {
+    private void pagar(int posicao, double valor) {
         retirarSaldo(posicao, valor);
     }
 
-    private void aumentar(int posicao, int valor) {
-        apostaCorrente = valor;
-//        System.out.print(" apostaCorrente " + apostaCorrente);
+    private void aumentar(int posicao, double valor) {
+
+//        System.out.println("valor " + valor);
+//        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+//        System.out.println("Aposta Corrent " + apostaCorrente);
+
+        apostaCorrente = apostaCorrente + valor;
+        quantPosicaoValida = 0;
+//        mesa2[posicao % 8].setBetting(apostaCorrente);
+        pagar(posicao, apostaCorrente);
+
+//        System.out.println("valor " + valor);
+//        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+//        System.out.println("Aposta Corrent " + apostaCorrente);
     }
 
-    private void retirarSaldo(int posicao, int valor) {
-        mesa2[posicao % 8].getJogador().setDinheiro(mesa2[posicao % 8].getJogador().getDinheiro() - valor);
-//        System.out.print(" - Novo saldo de " + mesa2[posicao % 8].getNome());
-//        System.out.print(" = " + mesa2[posicao % 8].getDinheiro());
+    private void retirarSaldo(int posicao, double valor) {
+
+        System.out.println("money " + mesa2[posicao % 8].getMoney());
+        
+        System.out.println("valor " + valor);
+        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+        System.out.println("Aposta Corrent " + apostaCorrente);
+
+        mesa2[posicao % 8].setMoney(mesa2[posicao % 8].getMoney() - (valor-mesa2[posicao % 8].getBetting()));
+        mesa2[posicao % 8].setBetting(valor);
+//        mesa2[posicao % 8].setMoney(mesa2[posicao % 8].getMoney() - mesa2[posicao % 8].getBetting());
+
+        System.out.println("valor " + valor);
+        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+        System.out.println("Aposta Corrent " + apostaCorrente);
+
+        System.out.println("money " + mesa2[posicao % 8].getMoney());
+    }
+
+    private void zerarBetting() {
+        for (int i = 0; i < 8; i++) {
+            if (mesa2[i] != null) {
+                mesa2[i].setBetting(0.0);
+            }
+        }
+        apostaCorrente = 0;
     }
 }
+
+// começar n o 4
+// retirar as apostas de cada jogador
+// apostar tudo
+// modificar o dealer por partida

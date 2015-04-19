@@ -34,6 +34,11 @@ public class MainTesteMesa {
         player3.setJogador(userC.findUsuario(3));
         player4.setJogador(userC.findUsuario(4));
         
+        player1.setMoney(1000);
+        player2.setMoney(1000);
+        player3.setMoney(1000);
+        player4.setMoney(1000);
+        
         mesa.addJogador(player1, 0);
         mesa.addJogador(player2, 2);
         mesa.addJogador(player3, 3);

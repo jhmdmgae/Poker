@@ -78,7 +78,7 @@ public class Player implements Comparable<Player> {
     }
 
     public void setBetting(double betting) {
-        setMoney(getMoney() - betting);
+//        setMoney(getMoney() - (betting-this.betting));
         this.betting = betting;
     }
 
