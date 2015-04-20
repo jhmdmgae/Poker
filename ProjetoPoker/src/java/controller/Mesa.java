@@ -75,6 +75,7 @@ public class Mesa {
                     System.out.println(" --- Distribuir Cartas --- ");
                 } else if (primeiraRodada && quantPosicaoValida == -2) {
                     System.out.println(" --- Pagar Small Blind  --- ");
+                    
                     retirarSaldo(posicao, apostaMinima / 2);
                 } else if (primeiraRodada && quantPosicaoValida == -1) {
                     System.out.println(" --- Pagar Big Blind --- ");
@@ -229,6 +230,7 @@ public class Mesa {
         System.out.println(" Digite 0 para Fold");
         System.out.println(" Digite 1 para Call");
         System.out.println(" Digite 2 para Raise");
+        System.out.println(" Digite 3 para Apostar Tudo");
         System.out.println("----------------------");
 
         acao = scan.nextInt();
@@ -245,10 +247,13 @@ public class Mesa {
                 acao = scan.nextInt();
                 aumentar(posicao, acao);
                 break;
+            case 4:
+                aumentar(posicao, mesa2[posicao % 8].getMoney()-apostaCorrente);
+                
+                break;
         }
 
         return acao;
-
     }
 
     public void listarJogadaresMesa() {
