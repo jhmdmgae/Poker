@@ -59,11 +59,11 @@ public class Mesa {
 
             if (validarPosicao(posicao)) {
 
-//                System.out.println(" fase = " + fase);
-//                System.out.println(" posicao = " + posicao);
-//                System.out.println(" quantPosicaoValida = " + quantPosicaoValida);
-//                System.out.println("Betting " + mesa2[posicao % 8].getBetting());
-//                System.out.println("Aposta Corrent " + apostaCorrente);
+                System.out.println("quantPosicaoValida " + quantPosicaoValida);
+                System.out.println("quant Jogadores " + calcularQuantJogadores());
+                System.out.println("money " + mesa2[posicao % 8].getMoney());
+                System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+                System.out.println("Aposta Corrent " + apostaCorrente);
 
                 if (quantPosicaoValida == calcularQuantJogadores()) {
                     mudancaFase = true;
@@ -75,7 +75,6 @@ public class Mesa {
                     System.out.println(" --- Distribuir Cartas --- ");
                 } else if (primeiraRodada && quantPosicaoValida == -2) {
                     System.out.println(" --- Pagar Small Blind  --- ");
-                    
                     retirarSaldo(posicao, apostaMinima / 2);
                 } else if (primeiraRodada && quantPosicaoValida == -1) {
                     System.out.println(" --- Pagar Big Blind --- ");
@@ -246,10 +245,11 @@ public class Mesa {
                 System.out.println(" Digite o quanto quer aumentar a aposta");
                 acao = scan.nextInt();
                 aumentar(posicao, acao);
+                quantPosicaoValida = 0;
                 break;
-            case 4:
-                aumentar(posicao, mesa2[posicao % 8].getMoney()-apostaCorrente);
-                
+            case 3:
+                pagar(posicao, apostaCorrente);
+                aumentar(posicao, mesa2[posicao % 8].getMoney());
                 break;
         }
 
@@ -259,13 +259,13 @@ public class Mesa {
     public void listarJogadaresMesa() {
         System.out.print("[");
         if (mesa2[0] != null) {
-            System.out.print(mesa2[0].getJogador().getNome() + " (" + mesa2[0].getMoney() + ")");
+            System.out.print(mesa2[0].getJogador().getNome() + " (" + mesa2[0].getMoney() + ")" + " (" + mesa2[0].getBetting() + ")");
         } else {
             System.out.print(" ");
         }
         for (int i = 1; i < mesa2.length; i++) {
             if (mesa2[i] != null) {
-                System.out.print("," + mesa2[i].getJogador().getNome() + " (" + mesa2[i].getMoney() + ")");
+                System.out.print("," + mesa2[i].getJogador().getNome() + " (" + mesa2[i].getMoney() + ")" + " (" + mesa2[i].getBetting() + ")");
             } else {
                 System.out.print(", ");
             }
@@ -281,9 +281,8 @@ public class Mesa {
     }
 
     private void inativarJogador(int posicao) {
-        listarJogadaresMesa();
         mesa2[posicao % 8] = null;
-        listarJogadaresMesa();
+        quantPosicaoValida--;
     }
 
     private void pagar(int posicao, double valor) {
@@ -292,37 +291,21 @@ public class Mesa {
 
     private void aumentar(int posicao, double valor) {
 
-//        System.out.println("valor " + valor);
-//        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
-//        System.out.println("Aposta Corrent " + apostaCorrente);
-
         apostaCorrente = apostaCorrente + valor;
-        quantPosicaoValida = 0;
-//        mesa2[posicao % 8].setBetting(apostaCorrente);
+
         pagar(posicao, apostaCorrente);
 
-//        System.out.println("valor " + valor);
-//        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
-//        System.out.println("Aposta Corrent " + apostaCorrente);
     }
 
     private void retirarSaldo(int posicao, double valor) {
 
-        System.out.println("money " + mesa2[posicao % 8].getMoney());
-        
-        System.out.println("valor " + valor);
-        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
-        System.out.println("Aposta Corrent " + apostaCorrente);
-
-        mesa2[posicao % 8].setMoney(mesa2[posicao % 8].getMoney() - (valor-mesa2[posicao % 8].getBetting()));
+//        System.out.println("money " + mesa2[posicao % 8].getMoney());
+//        System.out.println("valor " + valor);
+//        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
+//        System.out.println("Aposta Corrent " + apostaCorrente);
+        mesa2[posicao % 8].setMoney(mesa2[posicao % 8].getMoney() - (valor - mesa2[posicao % 8].getBetting()));
         mesa2[posicao % 8].setBetting(valor);
-//        mesa2[posicao % 8].setMoney(mesa2[posicao % 8].getMoney() - mesa2[posicao % 8].getBetting());
 
-        System.out.println("valor " + valor);
-        System.out.println("Betting " + mesa2[posicao % 8].getBetting());
-        System.out.println("Aposta Corrent " + apostaCorrente);
-
-        System.out.println("money " + mesa2[posicao % 8].getMoney());
     }
 
     private void zerarBetting() {
