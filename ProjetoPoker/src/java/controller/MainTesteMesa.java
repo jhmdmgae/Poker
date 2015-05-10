@@ -13,7 +13,6 @@ public class MainTesteMesa {
     
     public static void main(String[] args) {
         
-        
         Usuario usuario = new Usuario();
 
         DAO dao = new DAO();
@@ -35,20 +34,14 @@ public class MainTesteMesa {
         player4.setJogador(userC.findUsuario(4));
         
         player1.setMoney(1000);
-        player2.setMoney(1000);
-        player3.setMoney(1000);
+        player2.setMoney(2000);
+        player3.setMoney(3000);
         player4.setMoney(1000);
         
         mesa.addJogador(player1, 0);
         mesa.addJogador(player2, 2);
         mesa.addJogador(player3, 3);
         mesa.addJogador(player4, 6);
-        
-        
-//        mesa.addJogador(userC.findUsuario(1), 0);
-//        mesa.addJogador(userC.findUsuario(2), 2);
-//        mesa.addJogador(userC.findUsuario(3), 3);
-//        mesa.addJogador(userC.findUsuario(4), 6);
         
         mesa.jogada();
         
